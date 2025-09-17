@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Projeto | Otimização de Algoritmos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            min-height: 100vh;
+        }
+        .tech-icon {
+            transition: transform 0.3s ease;
+        }
+        .tech-icon:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16 px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Sobre o Projeto</h1>
+        <p class="text-xl opacity-90 max-w-2xl mx-auto">Uma plataforma para análise de algoritmos de otimização</p>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow container mx-auto max-w-4xl px-4 py-12">
+        <!-- Texto Principal -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-10">
+            <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-500 pl-4">Nossa Missão</h2>
+                
+                <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                    Este projeto foi desenvolvido para explorar e comparar diferentes abordagens de algoritmos de otimização.
+                    Através de uma interface intuitiva, é possível selecionar entre algoritmos como Subida de Encosta, 
+                    Subida de Encosta com Tentativas e Tempera Simulada, ajustando parâmetros como tipo de execução e tamanho do problema.
+                </p>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 border-l-4 border-blue-500 pl-4">Tecnologias Utilizadas</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-blue-50 p-5 rounded-lg text-center tech-icon">
+                        <i class="fab fa-python text-blue-600 text-4xl mb-3"></i>
+                        <p class="font-semibold">Flask</p>
+                        <p class="text-sm text-gray-600 mt-1">Backend</p>
+                    </div>
+                    <div class="bg-red-50 p-5 rounded-lg text-center tech-icon">
+                        <i class="fab fa-html5 text-red-600 text-4xl mb-3"></i>
+                        <p class="font-semibold">HTML5</p>
+                        <p class="text-sm text-gray-600 mt-1">Estrutura</p>
+                    </div>
+                    <div class="bg-blue-50 p-5 rounded-lg text-center tech-icon">
+                        <i class="fab fa-css3-alt text-blue-500 text-4xl mb-3"></i>
+                        <p class="font-semibold">CSS3</p>
+                        <p class="text-sm text-gray-600 mt-1">Estilização</p>
+                    </div>
+                    <div class="bg-teal-50 p-5 rounded-lg text-center tech-icon">
+                        <i class="fas fa-paint-brush text-teal-600 text-4xl mb-3"></i>
+                        <p class="font-semibold">Tailwind</p>
+                        <p class="text-sm text-gray-600 mt-1">Framework CSS</p>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 border-l-4 border-blue-500 pl-4">Funcionalidades</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gray-50 p-5 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-cogs text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg">Configuração Flexível</h3>
+                        </div>
+                        <p class="text-gray-700">Selecione entre execução aleatória ou fixa e defina o tamanho do problema.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-5 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-green-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-project-diagram text-green-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg">Múltiplos Algoritmos</h3>
+                        </div>
+                        <p class="text-gray-700">Compare diferentes métodos de otimização em uma única interface.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-5 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-purple-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-tachometer-alt text-purple-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg">Interface Responsiva</h3>
+                        </div>
+                        <p class="text-gray-700">Design adaptável que funciona perfeitamente em diferentes dispositivos.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-5 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-yellow-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-chart-line text-yellow-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-lg">Análise de Resultados</h3>
+                        </div>
+                        <p class="text-gray-700">Visualize e compare os resultados dos diferentes algoritmos executados.</p>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 border-l-4 border-blue-500 pl-4">Arquitetura do Sistema</h2>
+                
+                <div class="bg-gray-50 p-6 rounded-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="text-center mb-6 md:mb-0">
+                            <div class="bg-blue-100 p-4 rounded-full inline-block mb-3">
+                                <i class="fas fa-desktop text-blue-600 text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold">Frontend</h3>
+                            <p class="text-sm text-gray-600">HTML, CSS, Tailwind</p>
+                        </div>
+                        
+                        <div class="hidden md:block">
+                            <i class="fas fa-arrow-right text-gray-400 text-2xl mx-4"></i>
+                        </div>
+                        <div class="block md:hidden my-4">
+                            <i class="fas fa-arrow-down text-gray-400 text-2xl"></i>
+                        </div>
+                        
+                        <div class="text-center mb-6 md:mb-0">
+                            <div class="bg-green-100 p-4 rounded-full inline-block mb-3">
+                                <i class="fas fa-server text-green-600 text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold">Backend</h3>
+                            <p class="text-sm text-gray-600">Flask (Python)</p>
+                        </div>
+                        
+                        <div class="hidden md:block">
+                            <i class="fas fa-arrow-right text-gray-400 text-2xl mx-4"></i>
+                        </div>
+                        <div class="block md:hidden my-4">
+                            <i class="fas fa-arrow-down text-gray-400 text-2xl"></i>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="bg-purple-100 p-4 rounded-full inline-block mb-3">
+                                <i class="fas fa-database text-purple-600 text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold">Algoritmos</h3>
+                            <p class="text-sm text-gray-600">Otimização</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto max-w-4xl px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-xl font-semibold">Otimização de Algoritmos</p>
+                    <p class="text-gray-400">Desenvolvido com Flask, HTML, CSS e Tailwind</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="font-medium">Desenvolvido por:</p>
+                    <p class="text-gray-400">João Silva & Maria Santos</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                <p>© 2023 Projeto de Otimização de Algoritmos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

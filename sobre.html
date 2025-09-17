@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Projeto | Otimização de Algoritmos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CSS/sobre.css">
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+        <header class="bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex justify-between items-center">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-2">
+                        <div class="bg-blue-600 p-2 rounded-lg">
+                            <i class="fas fa-calendar-alt text-white text-xl"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">Smart<span class="logo-accent">Schedule</span></h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow container mx-auto max-w-4xl px-4 py-12">
+        <!-- Texto Principal -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-10">
+            <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-500 pl-4">Sobre o projeto</h2>
+                
+                <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                    Este projeto tem como objetivo desenvolver uma aplicação para a criação de escalas mensais de trabalho voltadas a uma equipe de manutenção preventiva. O desafio central é garantir que todos os 30 dias do mês sejam devidamente cobertos por um profissional, respeitando a disponibilidade individual de cada colaborador e assegurando que a carga de trabalho seja distribuída de forma justa e equilibrada entre todos.
+                </p>
+                
+                <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                    A principal necessidade operacional é evitar a ausência de profissionais na manutenção diária. No entanto, cada funcionário possui compromissos, folgas e ausências programadas, o que torna inviável escalá-los em determinados dias. A aplicação deve levar esses fatores em consideração, assegurando que ninguém seja designado para um turno em que não possa estar presente.
+                </p>
+
+                <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                    Mais do que apenas preencher os dias da escala, o projeto busca promover equidade. A meta é que, ao longo do mês, todos os membros da equipe tenham uma participação semelhante, evitando sobrecarga para uns e excesso de folgas para outros. Dessa forma, o sistema não apenas otimiza a cobertura das atividades, mas também contribui para um ambiente de trabalho mais justo, organizado e sustentável.
+                </p>
+                
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-blue-500 pl-4">Nossa Equipe</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Membro 1 -->
+                <div class="bg-blue-50 rounded-lg p-6 text-center">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-blue-200 flex items-center justify-center">
+                        <span class="text-3xl text-blue-700 font-bold">JG</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800">João Guilherme</h3>
+                    <p class="text-blue-600 font-medium">Desenvolvedor</p>
+                </div>
+                <!-- Membro 1 -->
+                <div class="bg-blue-50 rounded-lg p-6 text-center">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-blue-200 flex items-center justify-center">
+                        <span class="text-3xl text-blue-700 font-bold">MD</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800">Marcela Domiciano</h3>
+                    <p class="text-blue-600 font-medium">Desenvolvedora</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
