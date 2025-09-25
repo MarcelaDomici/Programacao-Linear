@@ -6,9 +6,8 @@ from metodosbasicos import gerar_matriz_restricao, gerar_solucao_inicial, avalia
 app = FastAPI()
 
 @app.get("/api/gerar_escala")
-def gerar_escala_endpoint(tipo: str = "F"):
-
-    matriz_restricao = gerar_matriz_restricao(tipo)
+def gerar_escala_endpoint(tipo: str = "A", funcs: int = 3):
+    matriz_restricao = gerar_matriz_restricao(tipo, funcs)
     escala = gerar_solucao_inicial(matriz_restricao)
     avaliacao = avalia_escala(escala)
 
