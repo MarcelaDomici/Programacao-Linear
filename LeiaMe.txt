@@ -1,0 +1,19 @@
+# Guia de Execução
+
+## 1. Pré-requisitos
+
+Você precisa ter o Python instalado em seu sistema.
+
+## 2. Instalação das Bibliotecas
+
+Abra o terminal na pasta raiz do projeto e execute o comando abaixo para instalar todas as dependências necessárias (FastAPI, Uvicorn e NumPy):
+- pip install fastapi uvicorn numpy
+
+## 3. Execução do Programa
+
+O aplicativo é configurado para ser executado através de um script simples (run.py).
+- python3 run.py
+
+## 4. Acessar o Site
+
+Após a execução do comando, o servidor será iniciado, o endereço de acesso será exibido no seu terminal e está pronto para ser acessado.
