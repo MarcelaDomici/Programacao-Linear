@@ -126,8 +126,8 @@
 
                 <!-- Botão Executar -->
                 <div class="pt-4">
-                    <button type="submit" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium 
-                                   transition-all flex items-center justify-center shadow-md hover:shadow-lg">
+                    <button id="btn-executar" type="button" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium 
+                                transition-all flex items-center justify-center shadow-md hover:shadow-lg">
                         <i class="fas fa-play-circle mr-2"></i>Executar
                     </button>
                 </div>
@@ -145,6 +145,27 @@
             radio.addEventListener('change', function () {
                 // Atualiza visualmente a seleção
             });
+        });
+
+        const radioFixo = document.getElementById('fixo');
+        const campoTamanho = document.getElementById('tamanho');
+        const radioAleatorio = document.getElementById('aleatorio');
+
+        // desabilita campo tamanho quando slecionado fixo
+        radioFixo.addEventListener('change', () => {
+            if (radioFixo.checked) {
+                campoTamanho.value = '';
+                campoTamanho.disabled = true;
+                campoTamanho.classList.add('bg-gray-100', 'cursor-not-allowed');
+            }
+        });
+
+        // habilita campo tamanho quando selecionado aleatorio
+        radioAleatorio.addEventListener('change', () => {
+            if (radioAleatorio.checked) {
+                campoTamanho.disabled = false;
+                campoTamanho.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            }
         });
 
 
