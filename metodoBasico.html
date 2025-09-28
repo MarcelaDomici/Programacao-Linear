@@ -157,23 +157,29 @@
         const campoTamanho = document.getElementById('tamanho');
         const radioAleatorio = document.getElementById('aleatorio');
 
-        // desabilita campo tamanho quando slecionado fixo
-        radioFixo.addEventListener('change', () => {
+        function atualizarCampo(){
             if (radioFixo.checked) {
                 campoTamanho.value = '';
                 campoTamanho.disabled = true;
                 campoTamanho.classList.add('bg-gray-100', 'cursor-not-allowed');
             }
-        });
+            else if (radioAleatorio.checked){
+                campoTamanho.disabled = false;
+                 campoTamanho.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            }
+        }
+
+        // desabilita campo tamanho quando slecionado fixo
+        radioFixo.addEventListener('change', atualizarCampo);
 
         // habilita campo tamanho quando selecionado aleatorio
-        radioAleatorio.addEventListener('change', () => {
-            if (radioAleatorio.checked) {
-                campoTamanho.disabled = false;
-                campoTamanho.classList.remove('bg-gray-100', 'cursor-not-allowed');
-            }
-        });
+        radioAleatorio.addEventListener('change', atualizarCampo);
 
+        // atualiza quando recarrega pagina
+        document.addEventListener('DOMContentLoaded', atualizarCampo);
+        document.addEventListener('DOMContentLoaded', () => {
+            campoTamanho.value = '';
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
         const gerarBtn = document.getElementById('gerarProblemaBtn');
