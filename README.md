@@ -1,0 +1,59 @@
+# Guia de Execução
+
+## 1. Pré-requisitos
+
+Você precisa ter o Python instalado em seu sistema.
+
+## 2. Instalação das Bibliotecas
+
+Antes de instalar as dependências, é recomendado criar um ambiente virtual (venv) para manter o projeto isolado.
+
+### Criar ambiente virtual
+
+Abra o terminal na pasta raiz do projeto e execute o comando abaixo:
+
+- Linux/macOS:
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
+
+- Windows:
+  ```bash
+  python -m venv venv
+  .\venv\Scripts\activate
+  ```
+
+Com o ambiente ativado, execute um dos comandos abaixo para instalar as dependências necessárias (FastAPI, Uvicorn e NumPy):
+
+```bash
+pip install fastapi uvicorn numpy
+```
+
+ou
+
+```bash
+pip install -r requirements.txt
+```
+
+## 3. Execução do Programa
+
+O aplicativo é configurado para ser executado através de um script simples (run.py).
+
+```bash
+python3 run.py
+```
+
+## 4. Acessar o Site
+
+Após a execução do comando, o servidor será iniciado, o endereço de acesso será exibido no seu terminal e está pronto para ser acessado.
+
+- Link: http://127.0.0.1:8000
+
+## 5. Navegando pelo Site
+
+Ao acessar http://127.0.0.1:8000, a página inicial mostra três opções:
+
+- Métodos Básicos: Abre a interface principal da aplicação, onde estão os métodos básicos disponíveis.
+- Algoritmos Genéticos: Exibe uma mensagem informando que essa parte ainda está em desenvolvimento.
+- Sobre: Mostra uma tela com a explicação do problema tratado no projeto e os nomes dos alunos que participaram: João Guilherme e Marcela.
