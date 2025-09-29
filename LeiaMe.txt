@@ -5,8 +5,19 @@
 Você precisa ter o Python instalado em seu sistema.
 
 ## 2. Instalação das Bibliotecas
+Antes de instalar as dependências, é recomendado criar um ambiente virtual (venv) para manter o projeto isolado.
 
-Abra o terminal na pasta raiz do projeto e execute o comando abaixo para instalar todas as dependências necessárias (FastAPI, Uvicorn e NumPy):
+### Criar ambiente virtual
+Abra o terminal na pasta raiz do projeto e execute o comando abaixo:
+- Linux/macOS:
+python3 -m venv venv
+source venv/bin/activate
+
+- Windows:
+python -m venv venv
+.\venv\Scripts\activate
+
+Com o ambiente ativado, execute um dos comandos abaixo para instalar as dependências necessárias (FastAPI, Uvicorn e NumPy):
 - pip install fastapi uvicorn numpy
 ou
 - pip install -r requirements.txt
