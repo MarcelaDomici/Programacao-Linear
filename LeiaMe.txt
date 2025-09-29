@@ -8,6 +8,8 @@ Você precisa ter o Python instalado em seu sistema.
 
 Abra o terminal na pasta raiz do projeto e execute o comando abaixo para instalar todas as dependências necessárias (FastAPI, Uvicorn e NumPy):
 - pip install fastapi uvicorn numpy
+ou
+- pip install -r requirements.txt
 
 ## 3. Execução do Programa
 
@@ -17,3 +19,10 @@ O aplicativo é configurado para ser executado através de um script simples (ru
 ## 4. Acessar o Site
 
 Após a execução do comando, o servidor será iniciado, o endereço de acesso será exibido no seu terminal e está pronto para ser acessado.
+- Link: http://127.0.0.1:8000
+
+## 5. Navegando pelo Site
+Ao acessar http://127.0.0.1:8000, a página inicial mostra três opções:
+- Métodos Básicos: Abre a interface principal da aplicação, onde estão os métodos básicos disponíveis.
+- Algoritmos Genéticos: Exibe uma mensagem informando que essa parte ainda está em desenvolvimento.
+- Sobre: Mostra uma tela com a explicação do problema tratado no projeto e os nomes dos alunos que participaram: João Guilherme e Marcela.
