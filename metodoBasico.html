@@ -135,8 +135,7 @@
 
             <!-- Botão Voltar para o Menu -->
             <div class="pt-6">
-                <a href="menu.html" 
-                class="w-full py-3 px-4 bg-gray-600 hover:bg-gray-700 rounded-lg text-white font-medium 
+                <a href="menu.html" class="w-full py-3 px-4 bg-gray-600 hover:bg-gray-700 rounded-lg text-white font-medium 
                         transition-all flex items-center justify-center shadow-md hover:shadow-lg">
                     <i class="fas fa-arrow-left mr-2"></i>Voltar para a Página Inicial
                 </a>
@@ -157,24 +156,65 @@
         });
 
         // mensagem botao executar "Módulo em desenvolvimento"
-        const botaoExecutar = document.getElementById('btn-executar');
-        botaoExecutar.addEventListener('click', () => {
-            alert('Módulo em desenvolvimento');
-        });
+        // const botaoExecutar = document.getElementById('btn-executar');
+        // botaoExecutar.addEventListener('click', () => {
+        //     alert('Módulo em desenvolvimento');
+        // });
+
+        document.getElementById('btn-executar').addEventListener('click', async () => {
+    const metodoSelecionado = document.querySelector('input[name="metodo"]:checked').value;
+    const resultadoContainer = document.getElementById('resultadoContainer');
+
+    if (metodoSelecionado === 'subida') {
+        try {
+            const response = await fetch('/api/subida_encosta');
+            const dados = await response.json();
+
+            if (dados.erro) {
+                resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
+                return;
+            }
+
+            const escalaFinalFormatada = Array.isArray(dados.escala_final)
+                ? dados.escala_final.map(row => row.join(' ')).join('\n')
+                : 'Escala não disponível';
+
+            const avaliacaoFinalFormatada =  dados.avaliacao_final.toFixed(2);
+
+            const htmlResultado = `
+                <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Subida de Encosta</h3>
+                <div class="text-gray-700 space-y-2">
+                    <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
+                    <p><strong>Escala Final:</strong></p>
+                    <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
+                </div>
+            `;
+
+            resultadoContainer.innerHTML = htmlResultado;
+
+        } catch (error) {
+            resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
+            console.error('Erro:', error);
+        }
+    } else {
+        resultadoContainer.innerHTML = `<p class="text-yellow-600">Método "${metodoSelecionado}" ainda está em desenvolvimento.</p>`;
+    }
+});
+
 
         const radioFixo = document.getElementById('fixo');
         const campoTamanho = document.getElementById('tamanho');
         const radioAleatorio = document.getElementById('aleatorio');
 
-        function atualizarCampo(){
+        function atualizarCampo() {
             if (radioFixo.checked) {
                 campoTamanho.value = '';
                 campoTamanho.disabled = true;
                 campoTamanho.classList.add('bg-gray-100', 'cursor-not-allowed');
             }
-            else if (radioAleatorio.checked){
+            else if (radioAleatorio.checked) {
                 campoTamanho.disabled = false;
-                 campoTamanho.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                campoTamanho.classList.remove('bg-gray-100', 'cursor-not-allowed');
             }
         }
 
@@ -191,40 +231,40 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-        const gerarBtn = document.getElementById('gerarProblemaBtn');
-        const resultadoContainer = document.getElementById('resultadoContainer');
+            const gerarBtn = document.getElementById('gerarProblemaBtn');
+            const resultadoContainer = document.getElementById('resultadoContainer');
 
-        gerarBtn.addEventListener('click', async (event) => {
-            event.preventDefault();
+            gerarBtn.addEventListener('click', async (event) => {
+                event.preventDefault();
 
-            const tipo = document.querySelector('input[name="tipo"]:checked').value;
-            const tamanho = document.getElementById('tamanho').value;
+                const tipo = document.querySelector('input[name="tipo"]:checked').value;
+                const tamanho = document.getElementById('tamanho').value;
 
-            if (tipo === 'aleatorio' && tamanho === '') {
-                resultadoContainer.innerHTML = `<p class="text-red-500">Por favor, preencha o tamanho para o modo Aleatório.</p>`;
-                return; 
-            }
+                if (tipo === 'aleatorio' && tamanho === '') {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Por favor, preencha o tamanho para o modo Aleatório.</p>`;
+                    return;
+                }
 
-            const tipoAPI = (tipo === 'fixo') ? 'F' : 'A';
+                const tipoAPI = (tipo === 'fixo') ? 'F' : 'A';
 
-            let url;
-            if (tipo === 'fixo') {
-                url = `/api/gerar_escala?tipo=${tipoAPI}`;
-            } else {
-                url = `/api/gerar_escala?tipo=${tipoAPI}&funcs=${tamanho}`;
-            }
+                let url;
+                if (tipo === 'fixo') {
+                    url = `/api/gerar_escala?tipo=${tipoAPI}`;
+                } else {
+                    url = `/api/gerar_escala?tipo=${tipoAPI}&funcs=${tamanho}`;
+                }
 
-            try {
-                const response = await fetch(url);
-                const dados = await response.json();
+                try {
+                    const response = await fetch(url);
+                    const dados = await response.json();
 
-                const escalaFormatada = dados.escala.map(row => {
-                    return row.join(' ');
-                }).join('\n');
+                    const escalaFormatada = dados.escala.map(row => {
+                        return row.join(' ');
+                    }).join('\n');
 
-                const avaliacaoFormatada = dados.avaliacao.toFixed(2);
+                    const avaliacaoFormatada = dados.avaliacao.toFixed(2);
 
-                const htmlResultado = `
+                    const htmlResultado = `
                     <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Geração</h3>
                     <div class="text-gray-700 space-y-2">
                         <p><strong>Avaliação (Desvio Padrão):</strong> ${avaliacaoFormatada}</p>
@@ -233,14 +273,14 @@
                     </div>
                 `;
 
-                resultadoContainer.innerHTML = htmlResultado;
+                    resultadoContainer.innerHTML = htmlResultado;
 
-            } catch (error) {
-                resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao gerar o problema. Verifique se o servidor está ativo.</p>`;
-                console.error('Erro:', error);
-            }
+                } catch (error) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao gerar o problema. Verifique se o servidor está ativo.</p>`;
+                    console.error('Erro:', error);
+                }
+            });
         });
-    });
     </script>
 
 </body>
