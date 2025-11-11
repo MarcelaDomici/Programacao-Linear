@@ -1,4 +1,5 @@
-from random import randint
+from random import randint, random
+from math import exp
 from metodosbasicos import avalia_escala
 
 def subida_encosta(solucao_inicial, avaliacao_inicial, matriz_restricao):
@@ -30,3 +31,39 @@ def sucessores(s, v, m):
                     melhor = [linha[:] for linha in aux]
                     vm = vaux
     return melhor, vm
+
+def tempera_simulada(solucao_inicial, avaliacao_inicial, matriz_restricao, ti=100, tf=1, fr=0.9):
+    atual = [linha[:] for linha in solucao_inicial]
+    va = avaliacao_inicial
+    temp = ti
+    funcs = len(atual)
+    dias = len(atual[0])
+
+    while temp > tf:
+
+        # Gera um vizinho aleatório trocando um dia entre dois funcionários
+        novo = [linha[:] for linha in atual]
+        i = randint(0, funcs - 1)
+        j = randint(0, funcs - 1)
+        k = randint(0, dias - 1)
+
+        if i != j and matriz_restricao[i][k] == 1 and matriz_restricao[j][k] == 1:
+            novo[i][k], novo[j][k] = novo[j][k], novo[i][k]
+
+        vn = avalia_escala(novo)
+        delta = vn - va
+
+        if delta < 0:
+            atual = novo
+            va = vn
+        else:
+            aleatorio = random()
+            prob = exp(-delta / temp)
+            if aleatorio < prob:
+                atual = novo
+                va = vn
+
+        temp *= fr
+
+    return atual, va
+
