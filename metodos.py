@@ -13,6 +13,27 @@ def subida_encosta(solucao_inicial, avaliacao_inicial, matriz_restricao):
             va = vn
         else:
             return atual, va
+        
+def subida_encosta_tentativas(solucao_inicial, avaliacao_inicial, matriz_restricao, t_max):
+    atual = [linha[:] for linha in solucao_inicial]
+    va = avaliacao_inicial
+    tentativa = 0
+
+    while tentativa < t_max:
+        novo, vn = sucessores(atual, va, matriz_restricao)
+        if vn < va:
+            atual = [linha[:] for linha in novo]
+            va = vn
+            tentativa = 0
+        else:
+            tentativa = tentativa + 1
+
+def ganho(avaliacao_inicial, avaliacao_final):
+    vi = avaliacao_inicial
+    vf = avaliacao_final
+    ganho = (100*(vi-vf))/vi
+
+    return ganho
 
 def sucessores(s, v, m):
     melhor = [linha[:] for linha in s] 
