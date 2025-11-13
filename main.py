@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from metodosbasicos import gerar_matriz_restricao, gerar_solucao_inicial, avalia_escala
-from metodos import subida_encosta
+from metodos import subida_encosta, tempera_simulada   
 app = FastAPI()
 
 estado_escala = {
@@ -38,6 +38,26 @@ def subida_encosta_endpoint():
     avaliacao = estado_escala["avaliacao"]
 
     escala_final, avaliacao_final = subida_encosta(escala, avaliacao, matriz_restricao)
+
+    return {
+        "escala_final": escala_final,
+        "avaliacao_final": avaliacao_final
+    }
+
+@app.get("/api/tempera_simulada")
+def tempera_simulada_endpoint(ti: float = 100, tf: float = 1, fr: float = 0.9):
+    if estado_escala["matriz"] is None:
+        return {
+            "erro": "Nenhuma escala foi gerada ainda. Gere a solução inicial primeiro."
+        }
+
+    matriz_restricao = estado_escala["matriz"]
+    escala = estado_escala["escala"]
+    avaliacao = estado_escala["avaliacao"]
+
+    escala_final, avaliacao_final = tempera_simulada(
+        escala, avaliacao, matriz_restricao, ti=ti, tf=tf, fr=fr
+    )
 
     return {
         "escala_final": escala_final,

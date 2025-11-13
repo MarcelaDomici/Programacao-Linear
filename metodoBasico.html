@@ -124,6 +124,26 @@
                     </div>
                 </div>
 
+                <!-- Parâmetros da Tempera Simulada -->
+                <div id="temperaParams" class="hidden space-y-4 mt-4">
+                    <div>
+                        <label for="ti" class="block text-sm font-medium text-gray-700">Temperatura Inicial (ti)</label>
+                        <input type="number" id="ti"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="tf" class="block text-sm font-medium text-gray-700">Temperatura Final (tf)</label>
+                        <input type="number" id="tf"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="fr" class="block text-sm font-medium text-gray-700">Fator de Resfriamento
+                            (fr)</label>
+                        <input type="number" step="0.01" id="fr"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
                 <!-- Botão Executar -->
                 <div class="pt-4">
                     <button id="btn-executar" type="button" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium 
@@ -162,26 +182,26 @@
         // });
 
         document.getElementById('btn-executar').addEventListener('click', async () => {
-    const metodoSelecionado = document.querySelector('input[name="metodo"]:checked').value;
-    const resultadoContainer = document.getElementById('resultadoContainer');
+            const metodoSelecionado = document.querySelector('input[name="metodo"]:checked').value;
+            const resultadoContainer = document.getElementById('resultadoContainer');
 
-    if (metodoSelecionado === 'subida') {
-        try {
-            const response = await fetch('/api/subida_encosta');
-            const dados = await response.json();
+            if (metodoSelecionado === 'subida') {
+                try {
+                    const response = await fetch('/api/subida_encosta');
+                    const dados = await response.json();
 
-            if (dados.erro) {
-                resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
-                return;
-            }
+                    if (dados.erro) {
+                        resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
+                        return;
+                    }
 
-            const escalaFinalFormatada = Array.isArray(dados.escala_final)
-                ? dados.escala_final.map(row => row.join(' ')).join('\n')
-                : 'Escala não disponível';
+                    const escalaFinalFormatada = Array.isArray(dados.escala_final)
+                        ? dados.escala_final.map(row => row.join(' ')).join('\n')
+                        : 'Escala não disponível';
 
-            const avaliacaoFinalFormatada =  dados.avaliacao_final.toFixed(2);
+                    const avaliacaoFinalFormatada = dados.avaliacao_final.toFixed(2);
 
-            const htmlResultado = `
+                    const htmlResultado = `
                 <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Subida de Encosta</h3>
                 <div class="text-gray-700 space-y-2">
                     <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
@@ -190,21 +210,55 @@
                 </div>
             `;
 
-            resultadoContainer.innerHTML = htmlResultado;
+                    resultadoContainer.innerHTML = htmlResultado;
 
-        } catch (error) {
-            resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
-            console.error('Erro:', error);
-        }
-    } else {
-        resultadoContainer.innerHTML = `<p class="text-yellow-600">Método "${metodoSelecionado}" ainda está em desenvolvimento.</p>`;
-    }
-});
+                } catch (error) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
+                    console.error('Erro:', error);
+                }
+            } else if (metodoSelecionado === 'tempera') {
+                const ti = document.getElementById('ti').value || 100;
+                const tf = document.getElementById('tf').value || 1;
+                const fr = document.getElementById('fr').value || 0.9;
+
+                try {
+                    const response = await fetch(`/api/tempera_simulada?ti=${ti}&tf=${tf}&fr=${fr}`);
+                    const dados = await response.json();
+
+                    if (dados.erro) {
+                        resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
+                        return;
+                    }
+
+                    const escalaFinalFormatada = Array.isArray(dados.escala_final)
+                        ? dados.escala_final.map(row => row.join(' ')).join('\n')
+                        : 'Escala não disponível';
+
+                    const avaliacaoFinalFormatada = dados.avaliacao_final.toFixed(2);
+
+                    resultadoContainer.innerHTML = `
+                <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Tempera Simulada</h3>
+                <div class="text-gray-700 space-y-2">
+                    <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
+                    <p><strong>Escala Final:</strong></p>
+                    <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
+                </div>
+            `;
+                } catch (error) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
+                    console.error('Erro:', error);
+                }
+            } else {
+                resultadoContainer.innerHTML = `<p class="text-yellow-600">Método "${metodoSelecionado}" ainda está em desenvolvimento.</p>`;
+            }
+        });
 
 
         const radioFixo = document.getElementById('fixo');
         const campoTamanho = document.getElementById('tamanho');
         const radioAleatorio = document.getElementById('aleatorio');
+        const radioTempera = document.getElementById('tempera');
+        const temperaParams = document.getElementById('temperaParams');
 
         function atualizarCampo() {
             if (radioFixo.checked) {
@@ -223,6 +277,17 @@
 
         // habilita campo tamanho quando selecionado aleatorio
         radioAleatorio.addEventListener('change', atualizarCampo);
+
+        // habilita o campo de parametros do tempera
+        document.querySelectorAll('input[name="metodo"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radioTempera.checked) {
+                    temperaParams.classList.remove('hidden');
+                } else {
+                    temperaParams.classList.add('hidden');
+                }
+            });
+        });
 
         // atualiza quando recarrega pagina
         document.addEventListener('DOMContentLoaded', atualizarCampo);
