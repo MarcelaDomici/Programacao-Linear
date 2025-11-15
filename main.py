@@ -50,18 +50,21 @@ def subida_encosta_endpoint():
     }
 
 @app.get("/api/tempera_simulada")
-def tempera_simulada_endpoint(ti: float = 100, tf: float = 1, fr: float = 0.9):
+def tempera_simulada_endpoint(ti: float, tf: float, fr: float):
     if estado_escala["matriz"] is None:
         return {
             "erro": "Nenhuma escala foi gerada ainda. Gere a solução inicial primeiro."
         }
+    
+    if ti is None or tf is None or fr is None:
+        return {"erro": "Por favor, preencha todos os parâmetros (ti, tf e fr) antes de executar."}
 
     matriz_restricao = estado_escala["matriz"]
     escala_inicial = estado_escala["escala"]
     avaliacao_inicial = estado_escala["avaliacao"]
 
     escala_final, avaliacao_final = tempera_simulada(
-        escala_inicial, avaliacao_inicial, matriz_restricao, ti=ti, tf=tf, fr=fr
+        escala_inicial, avaliacao_inicial, matriz_restricao, ti, tf=tf, fr=fr
     )
 
     ganho_resultado = ganho(avaliacao_inicial, avaliacao_final)

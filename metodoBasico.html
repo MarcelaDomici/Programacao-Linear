@@ -230,9 +230,14 @@
                     console.error('Erro:', error);
                 }
             } else if (metodoSelecionado === 'tempera') {
-                const ti = document.getElementById('ti').value || 100;
-                const tf = document.getElementById('tf').value || 1;
-                const fr = document.getElementById('fr').value || 0.9;
+                const ti = document.getElementById('ti').value;
+                const tf = document.getElementById('tf').value;
+                const fr = document.getElementById('fr').value;
+
+                if (!ti || !tf || !fr) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Por favor, preencha todos os parâmetros (ti, tf e fr) antes de executar.</p>`;
+                    return;
+                }
 
                 try {
                     const response = await fetch(`/api/tempera_simulada?ti=${ti}&tf=${tf}&fr=${fr}`);

@@ -53,7 +53,7 @@ def sucessores(s, v, m):
                     vm = vaux
     return melhor, vm
 
-def tempera_simulada(solucao_inicial, avaliacao_inicial, matriz_restricao, ti=100, tf=1, fr=0.9):
+def tempera_simulada(solucao_inicial, avaliacao_inicial, matriz_restricao, ti, tf, fr):
     atual = [linha[:] for linha in solucao_inicial]
     va = avaliacao_inicial
     temp = ti
