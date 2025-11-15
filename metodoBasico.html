@@ -195,20 +195,33 @@
                         return;
                     }
 
+                    const escalaInicialFormatada = Array.isArray(dados.escala_inicial)
+                        ? dados.escala_inicial.map(row => row.join(' ')).join('\n')
+                        : 'Escala inicial não disponível';
+
+
                     const escalaFinalFormatada = Array.isArray(dados.escala_final)
                         ? dados.escala_final.map(row => row.join(' ')).join('\n')
-                        : 'Escala não disponível';
+                        : 'Escala final não disponível';
 
+
+                    const avaliacaoInicialFormatada = dados.avaliacao_inicial.toFixed(2);
                     const avaliacaoFinalFormatada = dados.avaliacao_final.toFixed(2);
-
+                    const ganhoFormatado = dados.ganho.toFixed(2);
                     const htmlResultado = `
-                <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Subida de Encosta</h3>
-                <div class="text-gray-700 space-y-2">
-                    <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
-                    <p><strong>Escala Final:</strong></p>
-                    <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
-                </div>
-            `;
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Subida de Encosta</h3>
+                    <div class="text-gray-700 space-y-2">
+                        <p><strong>Avaliação Inicial:</strong> ${avaliacaoInicialFormatada}</p>
+                        <p><strong>Escala Inicial:</strong></p>
+                        <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaInicialFormatada}</pre>
+
+                        <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
+                        <p><strong>Escala Final:</strong></p>
+                        <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
+
+                        <p><strong>Ganho:</strong> ${ganhoFormatado}</p>
+                    </div>
+                        `;
 
                     resultadoContainer.innerHTML = htmlResultado;
 
@@ -230,20 +243,32 @@
                         return;
                     }
 
+                    const escalaInicialFormatada = Array.isArray(dados.escala_inicial)
+                        ? dados.escala_inicial.map(row => row.join(' ')).join('\n')
+                        : 'Escala inicial não disponível';
+
                     const escalaFinalFormatada = Array.isArray(dados.escala_final)
                         ? dados.escala_final.map(row => row.join(' ')).join('\n')
-                        : 'Escala não disponível';
+                        : 'Escala final não disponível';
 
+                    const avaliacaoInicialFormatada = dados.avaliacao_inicial.toFixed(2);
                     const avaliacaoFinalFormatada = dados.avaliacao_final.toFixed(2);
+                    const ganhoFormatado = dados.ganho.toFixed(2);
 
                     resultadoContainer.innerHTML = `
-                <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Tempera Simulada</h3>
-                <div class="text-gray-700 space-y-2">
-                    <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
-                    <p><strong>Escala Final:</strong></p>
-                    <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
-                </div>
-            `;
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Tempera Simulada</h3>
+                        <div class="text-gray-700 space-y-2">
+                            <p><strong>Avaliação Inicial:</strong> ${avaliacaoInicialFormatada}</p>
+                            <p><strong>Escala Inicial:</strong></p>
+                            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaInicialFormatada}</pre>
+
+                            <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
+                            <p><strong>Escala Final:</strong></p>
+                            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
+
+                            <p><strong>Ganho:</strong> ${ganhoFormatado}</p>
+                        </div>
+                    `;
                 } catch (error) {
                     resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
                     console.error('Erro:', error);
