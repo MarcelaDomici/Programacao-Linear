@@ -144,6 +144,15 @@
                     </div>
                 </div>
 
+                <!-- Parâmetro para Subida de Encosta com Tentativa -->
+                <div id="tentativaParams" class="hidden space-y-4 mt-4">
+                    <div>
+                        <label for="t_max" class="block text-sm font-medium text-gray-700">Maximo de tentativas (t_max)</label>
+                        <input type="number" id="t_max"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
                 <!-- Botão Executar -->
                 <div class="pt-4">
                     <button id="btn-executar" type="button" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium 
@@ -229,6 +238,7 @@
                     resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
                     console.error('Erro:', error);
                 }
+
             } else if (metodoSelecionado === 'tempera') {
                 const ti = document.getElementById('ti').value;
                 const tf = document.getElementById('tf').value;
@@ -278,9 +288,61 @@
                     resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
                     console.error('Erro:', error);
                 }
-            } else {
-                resultadoContainer.innerHTML = `<p class="text-yellow-600">Método "${metodoSelecionado}" ainda está em desenvolvimento.</p>`;
+
+            } else if (metodoSelecionado === 'tentativas') {
+
+                const t_max = document.getElementById('t_max').value;
+
+                if (!t_max) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Por favor, preencha o parâmetro (t_max) antes de executar.</p>`;
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`/api/subida_encosta_tentativas?t_max=${t_max}`);
+                    const dados = await response.json();
+
+                    if (dados.erro) {
+                        resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
+                        return;
+                    }
+
+                    const escalaInicialFormatada = Array.isArray(dados.escala_inicial)
+                        ? dados.escala_inicial.map(row => row.join(' ')).join('\n')
+                        : 'Escala inicial não disponível';
+
+
+                    const escalaFinalFormatada = Array.isArray(dados.escala_final)
+                        ? dados.escala_final.map(row => row.join(' ')).join('\n')
+                        : 'Escala final não disponível';
+
+
+                    const avaliacaoInicialFormatada = dados.avaliacao_inicial.toFixed(2);
+                    const avaliacaoFinalFormatada = dados.avaliacao_final.toFixed(2);
+                    const ganhoFormatado = dados.ganho.toFixed(2);
+                    const htmlResultado = `
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Subida de Encosta</h3>
+                    <div class="text-gray-700 space-y-2">
+                        <p><strong>Avaliação Inicial:</strong> ${avaliacaoInicialFormatada}</p>
+                        <p><strong>Escala Inicial:</strong></p>
+                        <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaInicialFormatada}</pre>
+
+                        <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
+                        <p><strong>Escala Final:</strong></p>
+                        <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
+
+                        <p><strong>Ganho:</strong> ${ganhoFormatado}</p>
+                    </div>
+                        `;
+
+                    resultadoContainer.innerHTML = htmlResultado;
+
+                } catch (error) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
+                    console.error('Erro:', error);
+                }
             }
+
         });
 
 
@@ -289,6 +351,8 @@
         const radioAleatorio = document.getElementById('aleatorio');
         const radioTempera = document.getElementById('tempera');
         const temperaParams = document.getElementById('temperaParams');
+        const radioTentativa = document.getElementById('tentativas');
+        const tentativaParams = document.getElementById('tentativaParams');
 
         function atualizarCampo() {
             if (radioFixo.checked) {
@@ -315,6 +379,17 @@
                     temperaParams.classList.remove('hidden');
                 } else {
                     temperaParams.classList.add('hidden');
+                }
+            });
+        });
+
+        // habilita o campo de parametro do subida de encosta com tentativa
+        document.querySelectorAll('input[name="metodo"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radioTentativa.checked) {
+                    tentativaParams.classList.remove('hidden');
+                } else {
+                    tentativaParams.classList.add('hidden');
                 }
             });
         });

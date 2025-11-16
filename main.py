@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from metodosbasicos import gerar_matriz_restricao, gerar_solucao_inicial, avalia_escala
-from metodos import subida_encosta, tempera_simulada, ganho
+from metodos import subida_encosta, tempera_simulada, ganho, subida_encosta_tentativas
 app = FastAPI()
 
 estado_escala = {
@@ -66,6 +66,32 @@ def tempera_simulada_endpoint(ti: float, tf: float, fr: float):
     escala_final, avaliacao_final = tempera_simulada(
         escala_inicial, avaliacao_inicial, matriz_restricao, ti, tf=tf, fr=fr
     )
+
+    ganho_resultado = ganho(avaliacao_inicial, avaliacao_final)
+
+    return {
+        "escala_inicial": escala_inicial,
+        "avaliacao_inicial": avaliacao_inicial,
+        "escala_final": escala_final,
+        "avaliacao_final": avaliacao_final,
+        "ganho": ganho_resultado
+    }
+
+@app.get("/api/subida_encosta_tentativas")
+def subida_encosta_tentativas_endpoint(t_max: int):
+    if estado_escala["matriz"] is None:
+        return {
+            "erro": "Nenhuma escala foi gerada ainda. Gere a solução inicial primeiro."
+        }
+    
+    if t_max is None:
+        return {"erro": "Por favor, preencha o parâmetro (tmax) antes de executar."}
+    
+    matriz_restricao = estado_escala["matriz"]
+    escala_inicial = estado_escala["escala"]
+    avaliacao_inicial = estado_escala["avaliacao"]
+
+    escala_final, avaliacao_final = subida_encosta_tentativas(escala_inicial, avaliacao_inicial, matriz_restricao, t_max=t_max)
 
     ganho_resultado = ganho(avaliacao_inicial, avaliacao_final)
 

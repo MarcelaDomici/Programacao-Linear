@@ -14,7 +14,7 @@ def subida_encosta(solucao_inicial, avaliacao_inicial, matriz_restricao):
         else:
             return atual, va
         
-def subida_encosta_tentativas(solucao_inicial, avaliacao_inicial, matriz_restricao, t_max):
+def subida_encosta_tentativas(solucao_inicial, avaliacao_inicial, matriz_restricao, t_max=3):
     atual = [linha[:] for linha in solucao_inicial]
     va = avaliacao_inicial
     tentativa = 0
@@ -27,6 +27,8 @@ def subida_encosta_tentativas(solucao_inicial, avaliacao_inicial, matriz_restric
             tentativa = 0
         else:
             tentativa += 1
+
+    return atual, va
 
 def ganho(avaliacao_inicial, avaliacao_final):
     vi = avaliacao_inicial
