@@ -31,8 +31,7 @@ def subida_encosta_tentativas(solucao_inicial, avaliacao_inicial, matriz_restric
 def ganho(avaliacao_inicial, avaliacao_final):
     vi = avaliacao_inicial
     vf = avaliacao_final
-    ganho = (100*(vi-vf))/vi
-
+    ganho = (100 * abs(vi - vf)) / vi
     return ganho
 
 def sucessores(s, v, m):
@@ -53,7 +52,7 @@ def sucessores(s, v, m):
                     vm = vaux
     return melhor, vm
 
-def tempera_simulada(solucao_inicial, avaliacao_inicial, matriz_restricao, ti, tf, fr):
+def tempera_simulada(solucao_inicial, avaliacao_inicial, matriz_restricao, ti=100, tf=1, fr=0.9):
     atual = [linha[:] for linha in solucao_inicial]
     va = avaliacao_inicial
     temp = ti
