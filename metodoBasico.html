@@ -215,43 +215,20 @@
                 }
 
                 if (Array.isArray(dados.ganho)) {
-                    const linhasTabela = dados.ganho
-                        .map((valor, i) => `
-                            <tr class="border-b border-gray-300">
-                                <td class="px-4 py-2 text-center font-medium text-gray-700">
-                                    ${i}
-                                </td>
-                                <td class="px-4 py-2 text-center text-gray-900">
-                                    ${Number(valor).toFixed(2)}
-                                </td>
-                            </tr>
-                        `)
-                        .join("");
 
-                    const tabelaHTML = `
-                        <h3 class="text-xl font-bold mb-4 text-gray-800">Tabela: Análise de Configurações</h3>
+                    const linhaUnica = dados.ganho
+                        .map(v => Number(v).toFixed(2))
+                        .join(", ");
 
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow">
-                                <thead class="bg-gray-200">
-                                    <tr>
-                                        <th class="px-4 py-2 text-center text-gray-800 font-semibold border-b border-gray-300">
-                                            Índice
-                                        </th>
-                                        <th class="px-4 py-2 text-center text-gray-800 font-semibold border-b border-gray-300">
-                                            Ganho
-                                        </th>
-                                    </tr>
-                                </thead>
+                    const linhaHTML = `
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Análise de Configurações</h3>
 
-                                <tbody>
-                                    ${linhasTabela}
-                                </tbody>
-                            </table>
-                        </div>
+                        <p class="text-gray-900">
+                            ${linhaUnica}
+                        </p>
                     `;
 
-                    resultadoContainer.innerHTML = tabelaHTML;
+                    resultadoContainer.innerHTML = linhaHTML;
 
                 } else {
                     resultadoContainer.innerHTML = `<p class="text-red-500">Análise não disponível.</p>`;
