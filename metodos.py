@@ -90,8 +90,8 @@ def tempera_simulada(solucao_inicial, avaliacao_inicial, matriz_restricao, ti=10
     return atual, va
 
 def analise_melhor_config():
-    ganho[11] = {0}
-    n = 20
+    ganho_v = [0] * 11
+    n = 30
 
     for i in range(n):
         matriz_restricao = gerar_matriz_restricao("F")
@@ -100,42 +100,44 @@ def analise_melhor_config():
 
         # subida de encosta
         sf, vf = subida_encosta(si, vi, matriz_restricao)
-        ganho[0] += ganho(vi, vf)
+        ganho_v[0] += ganho(vi, vf)
 
         # subida de encosta com tentativas
         tmax = n
         sf, vf = subida_encosta_tentativas(si, vi, matriz_restricao, tmax)
-        ganho[1] += ganho(vi, vf)
+        ganho_v[1] += ganho(vi, vf)
 
         tmax = n/2
         sf, vf = subida_encosta_tentativas(si, vi, matriz_restricao, tmax)
-        ganho[2] += ganho(vi, vf)
+        ganho_v[2] += ganho(vi, vf)
 
         tmax = n/4
         sf, vf = subida_encosta_tentativas(si, vi, matriz_restricao, tmax)
-        ganho[3] += ganho(vi, vf)
+        ganho_v[3] += ganho(vi, vf)
 
         # tempera simulada
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 100, 0.1, 0.8)
-        ganho[4] += ganho(vi, vf)
+        ganho_v[4] += ganho(vi, vf)
 
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 200, 0.1, 0.8)
-        ganho[5] += ganho(vi, vf)
+        ganho_v[5] += ganho(vi, vf)
 
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 500, 0.1, 0.8)
-        ganho[6] += ganho(vi, vf)
+        ganho_v[6] += ganho(vi, vf)
 
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 200, 0.1, 0.9)
-        ganho[7] += ganho(vi, vf)
+        ganho_v[7] += ganho(vi, vf)
 
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 500, 0.1, 0.9)
-        ganho[8] += ganho(vi, vf)
+        ganho_v[8] += ganho(vi, vf)
 
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 200, 0.01, 0.9)
-        ganho[9] += ganho(vi, vf)
+        ganho_v[9] += ganho(vi, vf)
 
         sf, vf = tempera_simulada(si, vi, matriz_restricao, 500, 0.01, 0.9)
-        ganho[10] += ganho(vi, vf)
+        ganho_v[10] += ganho(vi, vf)
 
     for i in range(11):
-        ganho[i] = ganho[i]/n
+        ganho_v[i] = ganho_v[i]/n
+    
+    return ganho_v

@@ -20,10 +20,24 @@
         <div class="bg-white rounded-xl shadow-md p-6 mb-8 card-hover">
             <form class="space-y-6">
                 <div class="flex flex-col gap-6">
-                    <!-- Tipo de Execução -->
                     <div>
+                        <!-- Botão analisar configuração -->
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-cogs mr-2 text-blue-500"></i>Tipo de Execução
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center"></div>
+                                <button id="btn-analisar" type="button" class="px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
+                                    <i class="fas fa-gear mr-2"></i>Analisar Configurações 
+                                </button>
+                            </div>
+                        </label>
+                        <!-- Tipo de Execução -->
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <i class="fas fa-cogs mr-2 text-blue-500"></i>
+                                    Tipo de Execução
+                                </div>
+                            </div>
                         </label>
                         <div class="grid grid-cols-2 gap-3">
                             <div class="relative">
@@ -184,12 +198,73 @@
             });
         });
 
-        // mensagem botao executar "Módulo em desenvolvimento"
-        // const botaoExecutar = document.getElementById('btn-executar');
-        // botaoExecutar.addEventListener('click', () => {
-        //     alert('Módulo em desenvolvimento');
-        // });
 
+        // Botão analisar
+        document.getElementById('btn-analisar').addEventListener('click', async () => {
+            const resultadoContainer = document.getElementById('resultadoContainer');
+
+            try {
+                const resposta = await fetch('/api/analise_melhor_config');
+                const dados = await resposta.json();
+
+                //console.log("DADOS DA API:", dados); 
+
+                if (dados.erro) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
+                    return;
+                }
+
+                if (Array.isArray(dados.ganho)) {
+                    const linhasTabela = dados.ganho
+                        .map((valor, i) => `
+                            <tr class="border-b border-gray-300">
+                                <td class="px-4 py-2 text-center font-medium text-gray-700">
+                                    ${i}
+                                </td>
+                                <td class="px-4 py-2 text-center text-gray-900">
+                                    ${Number(valor).toFixed(2)}
+                                </td>
+                            </tr>
+                        `)
+                        .join("");
+
+                    const tabelaHTML = `
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Tabela: Análise de Configurações</h3>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-2 text-center text-gray-800 font-semibold border-b border-gray-300">
+                                            Índice
+                                        </th>
+                                        <th class="px-4 py-2 text-center text-gray-800 font-semibold border-b border-gray-300">
+                                            Ganho
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    ${linhasTabela}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+
+                    resultadoContainer.innerHTML = tabelaHTML;
+
+                } else {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Análise não disponível.</p>`;
+                }
+
+            } catch (error) {
+                resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar análise. Verifique se o servidor está ativo.</p>`;
+                console.error('Erro:', error);
+            }
+            
+        });
+        
+        // Botão executar
         document.getElementById('btn-executar').addEventListener('click', async () => {
             const metodoSelecionado = document.querySelector('input[name="metodo"]:checked').value;
             const resultadoContainer = document.getElementById('resultadoContainer');

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from metodosbasicos import gerar_matriz_restricao, gerar_solucao_inicial, avalia_escala
-from metodos import subida_encosta, tempera_simulada, ganho, subida_encosta_tentativas
+from metodos import subida_encosta, tempera_simulada, ganho, subida_encosta_tentativas, analise_melhor_config
 app = FastAPI()
 
 estado_escala = {
@@ -10,6 +10,12 @@ estado_escala = {
     "escala": None,
     "avaliacao": None
 }
+
+@app.get("/api/analise_melhor_config")
+def analise_melhor_config_endpoint():
+    resultado = analise_melhor_config()
+    return {"ganho": resultado}
+
 
 @app.get("/api/gerar_escala")
 def gerar_escala_endpoint(tipo: str = "A", funcs: int = 3):
