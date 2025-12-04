@@ -1,5 +1,5 @@
-from random import shuffle, choice
-from metodosbasicos import  gerar_matriz_restricao, gerar_solucao_inicial, imprime_matriz
+from random import random, choice
+from metodosbasicos import  gerar_matriz_restricao, avalia_escala
 
 def gerar_solucao_embaralhada(matriz_restricao):
     funcs = len(matriz_restricao)    
@@ -21,13 +21,50 @@ def gerar_solucao_embaralhada(matriz_restricao):
 
     return novo_individuo
 
-def gerar_populacao_inicial(tamanho_populacao: int):
+def gerar_populacao_inicial(tamanho_populacao):
     matriz_restricao = gerar_matriz_restricao("A", tamanho_populacao)
     
     populacao = [gerar_solucao_embaralhada(matriz_restricao) for _ in range(tamanho_populacao)]
     return populacao
 
-# É pra gerar 5
-# populacao_inicial = gerar_populacao_inicial(5)
-# print(f"População inicial gerada com {len(populacao_inicial)} indivíduos.")
-# imprime_matriz(populacao_inicial)
+# Rever depois
+def aptidao(populacao):
+    tp = len(populacao)  
+    fit = [0.0] * tp    
+    soma = 0.0
+
+    for i in range(tp):
+        desvio = float(avalia_escala(populacao[i]))
+
+        fit[i] = 1.0 / (1.0 + desvio)
+        soma += fit[i]
+
+    for i in range(tp):
+        fit[i] = fit[i] / soma
+
+    return fit
+
+def roleta(fit):
+    ale = random()
+    soma = fit[0]
+    i = 0
+    while ale > soma and i < len(fit) - 1:
+        i += 1
+        soma += fit[i]
+    return i
+
+def cruzamento(ind1, ind2):
+    dias = len(ind1[0])
+    corte = random.randint(1, dias - 1)
+
+    d1 = []
+    d2 = []
+    for linha, outra in zip(ind1, ind2):
+        nova_coluna = linha[:corte] + outra[corte:]
+        d1.append(nova_coluna)
+
+        nova_coluna2 = outra[:corte] + linha[corte:]
+        d2.append(nova_coluna2)
+        return d1, d2
+
+#print(aptidao(gerar_populacao_inicial(5)))
