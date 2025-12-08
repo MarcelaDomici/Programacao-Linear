@@ -69,7 +69,7 @@
                         
                         <div>
                             <label for="ig" class="block text-sm font-medium text-gray-700 mb-2">
-                                Iterações por Geração (IG)
+                                Intervalo de Geração (IG)
                             </label>
                             <input type="number" id="ig" 
                                 class="input-field w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
@@ -84,7 +84,18 @@
                         </div>
                     </div>
                 </div>
-
+                
+                <!-- Gerar Problema -->
+                <div>
+                    <button type="button"
+                        class="w-full flex justify-between items-center px-4 py-3 bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded-lg transition-all"
+                        id="btn-gerarProblema">
+                        <span class="text-sm font-medium text-gray-700">
+                            <i class="fas fa-cog mr-2 text-blue-500"></i>Solução Inicial
+                        </span>
+                        <i class="fas fa-chevron-right text-gray-500"></i>
+                    </button>
+                </div>
                 <!-- Botão Executar -->
                 <div class="pt-4">
                     <button id="btn-executar" type="button" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium 
