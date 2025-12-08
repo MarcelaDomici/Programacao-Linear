@@ -21,9 +21,7 @@ def gerar_solucao_embaralhada(matriz_restricao):
 
     return novo_individuo
 
-def gerar_populacao_inicial(tamanho_populacao):
-    matriz_restricao = gerar_matriz_restricao("A", tamanho_populacao)
-    
+def gerar_populacao_inicial(tamanho_populacao, matriz_restricao):
     populacao = [gerar_solucao_embaralhada(matriz_restricao) for _ in range(tamanho_populacao)]
     return populacao
 
@@ -54,18 +52,25 @@ def roleta(fit):
     return i
 
 def cruzamento(ind1, ind2):
+    funcs = len(ind1)
     dias = len(ind1[0])
-    corte = random.randint(1, dias - 1)
+    corte = randint(1, dias - 1)
 
-    d1 = []
-    d2 = []
-    for linha, outra in zip(ind1, ind2):
-        nova_coluna = linha[:corte] + outra[corte:]
-        d1.append(nova_coluna)
+    d1 = [[0]*dias for _ in range(funcs)]
+    d2 = [[0]*dias for _ in range(funcs)]
 
-        nova_coluna2 = outra[:corte] + linha[corte:]
-        d2.append(nova_coluna2)
-        return d1, d2
+    for dia in range(corte):
+        for f in range(funcs):
+            d1[f][dia] = ind1[f][dia]
+            d2[f][dia] = ind2[f][dia]
+
+    for dia in range(corte, dias):
+        for f in range(funcs):
+            d1[f][dia] = ind2[f][dia]
+            d2[f][dia] = ind1[f][dia]
+
+    return d1, d2
+
 
 def mutacao(individuo, matriz_restricao):
     funcs = len(individuo)
@@ -73,10 +78,97 @@ def mutacao(individuo, matriz_restricao):
     d = randint(0, dias - 1)
 
     validos = [f for f in range(funcs) if matriz_restricao[f][d] == 1]
+
+    if not validos:
+        print('Erro: matriz de restrição não respeitada')
+        print(validos)
+        print(individuo)
+        print(d)
+        print(matriz_restricao)
+        return individuo
+
     escolhido = choice(validos)
-    for f in range(funcs):                   
+
+    for f in range(funcs):
         individuo[f][d] = 0
-    individuo[escolhido][d] = 1             
+    individuo[escolhido][d] = 1
 
     return individuo
 
+
+def descendente(n, pop, fit, tp, tc, tm, matriz_restricao):
+    qc = tp
+    qd = 2 * qc
+    descendentes = []
+
+    for i in range(0, qd, 2):
+        p1 = roleta(fit)
+        p2 = roleta(fit)
+
+        ale = random()
+        if ale < tc:
+            d1, d2 = cruzamento(pop[p1], pop[p2])
+        else:
+            d1, d2 = pop[p1], pop[p1]
+
+        ale = random()
+        if ale < tm:
+            d1 = mutacao(d1, matriz_restricao)
+
+        ale = random()
+        if ale < tm:
+            d2 = mutacao(d2, matriz_restricao)
+
+        descendentes.append(d1)
+        descendentes.append(d2)
+
+    return descendentes, qd
+
+def moda_pop(pop, tp, desc, qd):
+    candidatos = pop + desc
+
+    fit_candidatos = [1.0 / (1.0 + avalia_escala(ind)) for ind in candidatos]
+
+    ordenados = sorted(zip(candidatos, fit_candidatos), key=lambda x: x[1], reverse=True)
+
+    nova_pop = [ind for ind, fit in ordenados[:tp]]
+
+    return nova_pop
+
+def algoritmo_genetico(n, tp, ng, tm, tc):
+    # n = número de dias
+    # tp = tamanho da população
+    # ng = número de gerações
+    # tm = taxa de mutação
+    # tc = taxa de cruzamento
+
+    matriz_restricao = gerar_matriz_restricao("A", tp)
+    pop = gerar_populacao_inicial(tp, matriz_restricao)
+    fit = aptidao(pop)
+
+    for g in range(1, ng+1):
+        desc, qd = descendente(n, pop, fit, tp, tc, tm, matriz_restricao)
+
+        pop = moda_pop(pop, tp, desc, qd)
+        fit = aptidao(pop)
+
+    melhor = max(zip(pop, fit), key=lambda x: x[1])[0]
+    return melhor
+
+
+#pop = gerar_populacao_inicial(10)
+#fit = aptidao(pop)
+#desc, qd = descendente(n=len(pop[0][0]), pop=pop, fit=fit, tp=len(pop), tc=0.7, tm=0.1, matriz_restricao=gerar_matriz_restricao("A", len(pop)))
+#print("Gerados", qd, "descendentes")
+
+
+n = 30       # número de dias
+tp = 5      # tamanho da população
+ng = 20      # número de gerações
+tm = 0.1     # taxa de mutação
+tc = 0.7     # taxa de cruzamento
+
+melhor = algoritmo_genetico(n, tp, ng, tm, tc)
+print("Melhor indivíduo encontrado:")
+for linha in melhor:
+    print(linha)
