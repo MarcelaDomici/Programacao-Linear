@@ -119,7 +119,47 @@
         </div>
         </div>
 
-    </div>          
+    </div>
+<script>
+    document.getElementById("btn-gerarProblema").addEventListener("click", async () => {
+    const response = await fetch(`/api/gerar_escala?tipo=A&funcs=3`);
+    const data = await response.json();
+
+    const resultadoDiv = document.getElementById("resultadoContainer");
+    resultadoDiv.innerHTML = `
+        <h2 class="text-xl font-bold mb-4">Solução Inicial</h2>
+        <p><strong>Avaliação:</strong> ${data.avaliacao}</p>
+        <pre class="bg-gray-100 p-4 rounded">${JSON.stringify(data.escala, null, 2)}</pre>
+    `;
+});
+
+document.getElementById("btn-executar").addEventListener("click", async () => {
+    // pegar valores dos inputs
+    const n = document.getElementById("tamanho").value || 30;
+    const tp = document.getElementById("tp").value || 5;
+    const tc = document.getElementById("tc").value || 0.7;
+    const tm = document.getElementById("tm").value || 0.1;
+    const ng = document.getElementById("ng").value || 20;
+
+    try {
+        // chamada ao endpoint FastAPI
+        const response = await fetch(`/api/algoritmo_genetico?n=${n}&tp=${tp}&ng=${ng}&tm=${tm}&tc=${tc}`);
+        const data = await response.json();
+
+        // mostrar resultado no container
+        const resultadoDiv = document.getElementById("resultadoContainer");
+        resultadoDiv.innerHTML = `
+            <h2 class="text-xl font-bold mb-4">Resultado do Algoritmo Genético</h2>
+            <p><strong>Avaliação:</strong> ${data.avaliacao}</p>
+            <p><strong>Melhor indivíduo:</strong></p>
+            <pre class="bg-gray-100 p-4 rounded">${JSON.stringify(data.melhor_individuo, null, 2)}</pre>
+        `;
+    } catch (error) {
+        alert("Erro ao executar o algoritmo genético: " + error);
+    }
+});
+</script>
+
 
 </body>
 </html>

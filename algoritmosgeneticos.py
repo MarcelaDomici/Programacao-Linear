@@ -135,14 +135,14 @@ def moda_pop(pop, tp, desc, qd):
 
     return nova_pop
 
-def algoritmo_genetico(n, tp, ng, tm, tc):
+def rotina_algoritmo_genetico(n, tp, ng, tm, tc, matriz_restricao):
     # n = número de dias
     # tp = tamanho da população
     # ng = número de gerações
     # tm = taxa de mutação
     # tc = taxa de cruzamento
 
-    matriz_restricao = gerar_matriz_restricao("A", tp)
+    #matriz_restricao = gerar_matriz_restricao("A", tp)
     pop = gerar_populacao_inicial(tp, matriz_restricao)
     fit = aptidao(pop)
 
@@ -154,21 +154,3 @@ def algoritmo_genetico(n, tp, ng, tm, tc):
 
     melhor = max(zip(pop, fit), key=lambda x: x[1])[0]
     return melhor
-
-
-#pop = gerar_populacao_inicial(10)
-#fit = aptidao(pop)
-#desc, qd = descendente(n=len(pop[0][0]), pop=pop, fit=fit, tp=len(pop), tc=0.7, tm=0.1, matriz_restricao=gerar_matriz_restricao("A", len(pop)))
-#print("Gerados", qd, "descendentes")
-
-
-n = 30       # número de dias
-tp = 5      # tamanho da população
-ng = 20      # número de gerações
-tm = 0.1     # taxa de mutação
-tc = 0.7     # taxa de cruzamento
-
-melhor = algoritmo_genetico(n, tp, ng, tm, tc)
-print("Melhor indivíduo encontrado:")
-for linha in melhor:
-    print(linha)

@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from metodosbasicos import gerar_matriz_restricao, gerar_solucao_inicial, avalia_escala
 from metodos import subida_encosta, tempera_simulada, ganho, subida_encosta_tentativas, analise_melhor_config
+from algoritmosgeneticos import rotina_algoritmo_genetico
 app = FastAPI()
 
 estado_escala = {
@@ -107,6 +108,24 @@ def subida_encosta_tentativas_endpoint(t_max: int):
         "escala_final": escala_final,
         "avaliacao_final": avaliacao_final,
         "ganho": ganho_resultado
+    }
+
+@app.get("/api/algoritmo_genetico")
+def algoritmo_genetico_endpoint(n: int, tp: int, ng: int, tm: float, tc: float):
+    if estado_escala["matriz"] is None:
+        return {"erro": "Nenhuma matriz foi gerada ainda. Gere a solução inicial primeiro."}
+
+    matriz_restricao = estado_escala["matriz"]
+
+    melhor = rotina_algoritmo_genetico(n, tp, ng, tm, tc, matriz_restricao)
+    avaliacao = float(avalia_escala(melhor))
+
+    estado_escala["escala"] = melhor
+    estado_escala["avaliacao"] = avaliacao
+
+    return {
+        "melhor_individuo": melhor,
+        "avaliacao": avaliacao
     }
 
 #Endpoints para as páginas HTML
