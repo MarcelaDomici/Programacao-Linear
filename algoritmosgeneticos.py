@@ -1,4 +1,4 @@
-from random import random, choice
+from random import random, choice, randint
 from metodosbasicos import  gerar_matriz_restricao, avalia_escala
 
 def gerar_solucao_embaralhada(matriz_restricao):
@@ -67,4 +67,27 @@ def cruzamento(ind1, ind2):
         d2.append(nova_coluna2)
         return d1, d2
 
-#print(aptidao(gerar_populacao_inicial(5)))
+# def mutacao(individuo):
+#     funcs = len(individuo)      
+#     dias = len(individuo[0])     
+
+#     f = random.randint(0, funcs - 1)  
+#     d = random.randint(0, dias - 1)   
+
+#     individuo[f][d] = 1 - individuo[f][d]  
+#     return individuo
+
+
+def mutacao(individuo, matriz_restricao):
+    funcs = len(individuo)
+    dias = len(individuo[0])
+    d = randint(0, dias - 1)
+
+    validos = [f for f in range(funcs) if matriz_restricao[f][d] == 1]
+    escolhido = choice(validos)
+    for f in range(funcs):                   
+        individuo[f][d] = 0
+    individuo[escolhido][d] = 1             
+
+    return individuo
+
