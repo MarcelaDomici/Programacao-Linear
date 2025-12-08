@@ -67,17 +67,6 @@ def cruzamento(ind1, ind2):
         d2.append(nova_coluna2)
         return d1, d2
 
-# def mutacao(individuo):
-#     funcs = len(individuo)      
-#     dias = len(individuo[0])     
-
-#     f = random.randint(0, funcs - 1)  
-#     d = random.randint(0, dias - 1)   
-
-#     individuo[f][d] = 1 - individuo[f][d]  
-#     return individuo
-
-
 def mutacao(individuo, matriz_restricao):
     funcs = len(individuo)
     dias = len(individuo[0])
