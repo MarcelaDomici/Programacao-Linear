@@ -124,13 +124,12 @@
     document.addEventListener('DOMContentLoaded', () => {
         const gerarBtn = document.getElementById('btn-gerarProblema');
         const resultadoContainer = document.getElementById('resultadoContainer');
-        const tamanho = document.getElementById('tamanho').value;
 
         gerarBtn.addEventListener('click', async (event) => {
             event.preventDefault();
             
             const tipoAPI = 'A';
-            const funcs = tamanho;
+             const funcs = document.getElementById('tamanho').value.trim();
 
             const url = `/api/gerar_escala?tipo=${tipoAPI}&funcs=${funcs}`;
 
@@ -182,40 +181,45 @@
             const dados = await response.json();
             console.log("API retornou:", dados);
 
-            if (!dados.melhor_individuo) {
-                resultadoContainer.innerHTML = `
-                    <p class="text-red-500">
-                        A API não retornou o campo <strong>melhor_individuo</strong>.<br>
-                        Veja o console para detalhes.
-                    </p>
-                `;
-                console.error("Erro: 'melhor_individuo' não existe:", dados);
-                return;
-            }
+             if (dados.erro) {
+                        resultadoContainer.innerHTML = `<p class="text-red-500">${dados.erro}</p>`;
+                        return;
+                    }
 
-            const escalaFormatada = dados.melhor_individuo
-                .map(row => row.join(" "))
-                .join("\n");
+                    const escalaInicialFormatada = Array.isArray(dados.escala_inicial)
+                        ? dados.escala_inicial.map(row => row.join(' ')).join('\n')
+                        : 'Escala inicial não disponível';
 
-            const avaliacaoFormatada = dados.avaliacao.toFixed(2);
 
-            const htmlResultado = `
-                <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado do Algoritmo Genético</h3>
-                <div class="text-gray-700 space-y-2">
-                    <p><strong>Avaliação:</strong> ${avaliacaoFormatada}</p>
-                    <p><strong>Melhor Indivíduo:</strong></p>
-                    <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFormatada}</pre>
-                </div>
-            `;
+                    const escalaFinalFormatada = Array.isArray(dados.escala_final)
+                        ? dados.escala_final.map(row => row.join(' ')).join('\n')
+                        : 'Escala final não disponível';
 
-            resultadoContainer.innerHTML = htmlResultado;
 
-        } catch (error) {
-            resultadoContainer.innerHTML = `
-                <p class="text-red-500">Erro ao executar o algoritmo genético.</p>
-            `;
-            console.error("Erro:", error);
-        }
+                    const avaliacaoInicialFormatada = dados.avaliacao_inicial.toFixed(2);
+                    const avaliacaoFinalFormatada = dados.avaliacao_final.toFixed(2);
+                    const ganhoFormatado = dados.ganho.toFixed(2);
+                    const htmlResultado = `
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Resultado da Subida de Encosta</h3>
+                    <div class="text-gray-700 space-y-2">
+                        <p><strong>Avaliação Inicial:</strong> ${avaliacaoInicialFormatada}</p>
+                        <p><strong>Escala Inicial:</strong></p>
+                        <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaInicialFormatada}</pre>
+
+                        <p><strong>Avaliação Final:</strong> ${avaliacaoFinalFormatada}</p>
+                        <p><strong>Escala Final:</strong></p>
+                        <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto text-sm text-gray-900">${escalaFinalFormatada}</pre>
+
+                        <p><strong>Ganho:</strong> ${ganhoFormatado}</p>
+                    </div>
+                        `;
+
+                    resultadoContainer.innerHTML = htmlResultado;
+
+                } catch (error) {
+                    resultadoContainer.innerHTML = `<p class="text-red-500">Erro ao executar o método. Verifique se o servidor está ativo.</p>`;
+                    console.error('Erro:', error);
+                }
     });
 
 </script>

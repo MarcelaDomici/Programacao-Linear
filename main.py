@@ -116,16 +116,20 @@ def algoritmo_genetico_endpoint(n: int, tp: int, ng: int, tm: float, tc: float):
         return {"erro": "Nenhuma matriz foi gerada ainda. Gere a solução inicial primeiro."}
 
     matriz_restricao = estado_escala["matriz"]
+    escala_inicial = estado_escala["escala"]
+    avaliacao_inicial = estado_escala["avaliacao"]
 
     melhor = rotina_algoritmo_genetico(n, tp, ng, tm, tc, matriz_restricao)
-    avaliacao = float(avalia_escala(melhor))
+    avaliacao_final = float(avalia_escala(melhor))
 
-    estado_escala["escala"] = melhor
-    estado_escala["avaliacao"] = avaliacao
+    ganho_resultado = ganho(avaliacao_inicial, avaliacao_final)
 
     return {
-        "melhor_individuo": melhor,
-        "avaliacao": avaliacao
+        "escala_inicial": escala_inicial,
+        "avaliacao_inicial": avaliacao_inicial,
+        "escala_final": melhor,
+        "avaliacao_final": avaliacao_final,
+        "ganho": ganho_resultado
     }
 
 #Endpoints para as páginas HTML
